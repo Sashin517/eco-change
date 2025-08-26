@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'home.dart';
+import 'signup_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height * 0.55,
+              //height: MediaQuery.of(context).size.height * 0.55,
               decoration: const BoxDecoration(
                 color: Color(0xFFB6E62E), // Eco green
                 borderRadius: BorderRadius.only(
@@ -45,6 +46,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 32),
@@ -154,7 +156,7 @@ class LoginPage extends StatelessWidget {
                         color: Colors.black87),
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 64),
 
                   /// Sign Up Row
                   Row(
@@ -178,7 +180,10 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // navigate to SignUp
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignUpPage()),
+                          );
                         },
                         child: const Text("Sign Up"),
                       ),

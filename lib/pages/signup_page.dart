@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'login_page.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height * 0.55,
+              //height: MediaQuery.of(context).size.height * 0.55,
               decoration: const BoxDecoration(
                 color: Color(0xFFB6E62E), // Eco green
                 borderRadius: BorderRadius.only(
@@ -45,11 +45,12 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 32),
                   const Text(
-                    "Welcome to EcoChange",
+                    "Sign Up for Free",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -66,6 +67,28 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
 
+                  /// Name Field
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFDFF4B7),
+                      hintText: "Enter your name",
+                      hintStyle: TextStyle(
+                        fontSize: 16, // font size of hint text
+                        color: AppColors.text, // 50% faded
+                      ),
+                      prefixIcon: const Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16, // 👈 left & right
+                        vertical: 18,   // 👈 top & bottom
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
                   /// Email Field
                   TextField(
                     decoration: InputDecoration(
@@ -112,6 +135,29 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  /// Password Field
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFDFF4B7),
+                      hintText: "Re-enter your password",
+                      hintStyle: TextStyle(
+                        fontSize: 16, // font size of hint text
+                        color: AppColors.text, // 50% faded
+                      ),
+                      prefixIcon: const Icon(Icons.lock),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16, // 👈 left & right
+                        vertical: 18,   // 👈 top & bottom
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
                   /// Login Button
                   SizedBox(
@@ -134,34 +180,20 @@ class LoginPage extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                        "Login",
+                        "Sign Up",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.white),
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 12),
-                  TextButton(
-                    onPressed: () {
-                      // forgot password logic
-                    },
-                    child: const Text(
-                      "Forgot your password?",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87),
-                    ),
-                  ),
-                  const Spacer(),
-
+                  const SizedBox(height: 64),
                   /// Sign Up Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Don’t you have an account?",
+                        "Do you have an account?",
                          style:TextStyle(
                           fontSize: 16,
                           color: AppColors.text,
@@ -178,9 +210,12 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // navigate to SignUp
-                        },
-                        child: const Text("Sign Up"),
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                            );
+                          },
+                        child: const Text("Login"),
                       ),
                     ],
                   ),
