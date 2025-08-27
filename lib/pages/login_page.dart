@@ -9,12 +9,14 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          /// Background image
-          /// Background image (from network)
-          SizedBox(
-            width: double.infinity,
+      resizeToAvoidBottomInset: true, // 👈 prevents keyboard overlap
+      body: SafeArea(
+        child: Stack(
+          children: [
+            /// Background image
+            /// Background image (from network)
+            SizedBox(
+              width: double.infinity,
             height: MediaQuery.of(context).size.height / 2,
             child: Image.network(
               "https://images.pexels.com/photos/6995417/pexels-photo-6995417.jpeg", // 🔁 replace with your actual image URL
@@ -37,7 +39,7 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(20),
-              //height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height * 0.70,
               decoration: const BoxDecoration(
                 color: Color(0xFFB6E62E), // Eco green
                 borderRadius: BorderRadius.only(
@@ -46,10 +48,13 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                //mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 32),
+                  Column(
+                    children: [
+                      const SizedBox(height: 32),
                   const Text(
                     "Welcome to EcoChange",
                     style: TextStyle(
@@ -78,14 +83,14 @@ class LoginPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email, size: 22),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -102,14 +107,14 @@ class LoginPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock, size: 22,),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -121,8 +126,7 @@ class LoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 22,
+                          vertical: 14,
                           ),
                         backgroundColor: const Color(0xFF3D5000),
                         shape: RoundedRectangleBorder(
@@ -156,7 +160,9 @@ class LoginPage extends StatelessWidget {
                         color: Colors.black87),
                     ),
                   ),
-                  const SizedBox(height: 64),
+                  //const SizedBox(height: 64),
+                    ],
+                  ),
 
                   /// Sign Up Row
                   Row(
@@ -174,9 +180,9 @@ class LoginPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.secondary,
                           foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         onPressed: () {
@@ -189,13 +195,14 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  //const SizedBox(height: 10),
                 ],
               ),
             ),
           ),
         ],
       ),
+    ),
     );
   }
 }

@@ -8,7 +8,9 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      resizeToAvoidBottomInset: true, // 👈 prevents keyboard overlap
+      body: SafeArea(
+        child:Stack(
         children: [
           /// Background image
           /// Background image (from network)
@@ -36,7 +38,7 @@ class SignUpPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(20),
-              //height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height * 0.80,
               decoration: const BoxDecoration(
                 color: Color(0xFFB6E62E), // Eco green
                 borderRadius: BorderRadius.only(
@@ -45,10 +47,13 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                //mainAxisSize: MainAxisSize.min, // 👈 fits height to children
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 32),
+                  Column(
+                    children: [
+                      const SizedBox(height: 32),
                   const Text(
                     "Sign Up for Free",
                     style: TextStyle(
@@ -77,14 +82,14 @@ class SignUpPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.person),
+                      prefixIcon: const Icon(size: 22,Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -99,14 +104,14 @@ class SignUpPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.email),
+                      prefixIcon: const Icon(size: 22,Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -123,14 +128,14 @@ class SignUpPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: const Icon(size: 22,Icons.lock),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -146,14 +151,14 @@ class SignUpPage extends StatelessWidget {
                         fontSize: 16, // font size of hint text
                         color: AppColors.text, // 50% faded
                       ),
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: const Icon(size: 22,Icons.lock),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, // 👈 left & right
-                        vertical: 18,   // 👈 top & bottom
+                        horizontal: 14, // 👈 left & right
+                        vertical: 16,   // 👈 top & bottom
                       ),
                     ),
                   ),
@@ -165,8 +170,7 @@ class SignUpPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 22,
+                          vertical: 14,
                           ),
                         backgroundColor: const Color(0xFF3D5000),
                         shape: RoundedRectangleBorder(
@@ -187,7 +191,9 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 64),
+                    ],
+                  ),
+                  //const SizedBox(height: 64),
                   /// Sign Up Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -204,9 +210,9 @@ class SignUpPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.secondary,
                           foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         onPressed: () {
@@ -219,12 +225,12 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),
           ),
         ],
+      ),
       ),
     );
   }
