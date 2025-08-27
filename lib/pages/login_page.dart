@@ -17,9 +17,9 @@ class LoginPage extends StatelessWidget {
             /// Background image (from network)
             SizedBox(
               width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2,
-            child: Image.network(
-              "https://images.pexels.com/photos/6995417/pexels-photo-6995417.jpeg", // 🔁 replace with your actual image URL
+            height: MediaQuery.of(context).size.height * 0.42,
+            child: Image.asset(
+              "assets/Garbage.jpg", 
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
                 color: Colors.grey.shade200,
@@ -27,10 +27,6 @@ class LoginPage extends StatelessWidget {
                   child: Icon(Icons.broken_image, size: 60, color: Colors.grey),
                 ),
               ),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const Center(child: CircularProgressIndicator());
-              },
             ),
           ),
 
@@ -39,7 +35,7 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height * 0.70,
+              //height: MediaQuery.of(context).size.height * 0.54,
               decoration: const BoxDecoration(
                 color: Color(0xFFB6E62E), // Eco green
                 borderRadius: BorderRadius.only(
@@ -48,8 +44,8 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               child: Column(
-                //mainAxisSize: MainAxisSize.min, // 👈 fits height to children
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
@@ -163,7 +159,7 @@ class LoginPage extends StatelessWidget {
                   //const SizedBox(height: 64),
                     ],
                   ),
-
+                  const SizedBox(height: 24),
                   /// Sign Up Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

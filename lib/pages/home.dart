@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -114,20 +115,28 @@ class HomePage extends StatelessWidget {
                                   ],
                                 ),
                                                            
-                            Column(
+                            Stack(
+                              alignment: Alignment.center,
                               children: const [
                                 SizedBox(
-                                  height: 60,
-                                  width: 60,
+                                  height: 128,
+                                  width: 128,
                                   child: CircularProgressIndicator(
                                     value: 2.5 / 7,
-                                    strokeWidth: 6,
-                                    backgroundColor: Colors.grey,
-                                    color: Colors.green,
+                                    strokeWidth: 11.34,
+                                    backgroundColor: AppColors.secondary,
+                                    strokeCap: StrokeCap.round,
+                                    color: AppColors.olive,
                                   ),
                                 ),
                                 SizedBox(height: 6),
-                                Text("2.5/7 kg"),
+                                Text(
+                                  "2.5/7 kg",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  )                                  
+                                  ),
                               ],
                             )
                           ],
