@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase with web options
+  await Firebase.initializeApp();
+
   runApp(const EcoChangeApp());
 }
 
@@ -11,9 +17,11 @@ class EcoChangeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Eco Change',
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
     );
   }
 }
+
 

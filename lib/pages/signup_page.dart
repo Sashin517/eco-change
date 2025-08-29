@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
+
+  static final TextEditingController nameContoller = TextEditingController();
+  static final TextEditingController passContoller = TextEditingController();
+  static final TextEditingController rePassContoller = TextEditingController();
+  static final TextEditingController emailContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +76,7 @@ class SignUpPage extends StatelessWidget {
 
                   /// Name Field
                   TextField(
+                    controller: nameContoller,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xFFDFF4B7),
@@ -92,6 +99,7 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 15),
                   /// Email Field
                   TextField(
+                    controller: emailContoller,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xFFDFF4B7),
@@ -115,6 +123,7 @@ class SignUpPage extends StatelessWidget {
 
                   /// Password Field
                   TextField(
+                    controller: passContoller,
                     obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
@@ -138,6 +147,7 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   /// Password Field
                   TextField(
+                    controller: rePassContoller,
                     obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
@@ -173,11 +183,39 @@ class SignUpPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
-                        );
+                      onPressed: (){
+                        String name = nameContoller.text.trim();
+                        String mail = emailContoller.text.trim();
+                        String pass = passContoller.text.trim();
+                        String re_pass = rePassContoller.text.trim();
+
+                        if(name.isEmpty || mail.isEmpty || pass.isEmpty || re_pass.isEmpty) {
+                          // Show an error message if fields are empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please enter all fields')),
+                          );
+                          return;
+                        }else if(pass != re_pass){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Passwords do not match')),
+                          );
+                          return;
+                        }else{
+                          try{
+                            FirebaseAuth.instance.createUserWithEmailAndPassword(email: mail, password: pass).then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Signed up successfully')),
+                              );
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                              );  
+                            });
+                                                      
+                          }catch(err){
+                            print("Error: $err");
+                          }
+                        }
                       },
                       child: const Text(
                         "Sign Up",

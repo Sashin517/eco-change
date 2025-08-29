@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'home.dart';
 import 'signup_page.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
+
+  static final TextEditingController passContoller = TextEditingController();
+  static final TextEditingController emailContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +75,7 @@ class LoginPage extends StatelessWidget {
 
                   /// Email Field
                   TextField(
+                    controller: emailContoller,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xFFDFF4B7),
@@ -94,6 +99,7 @@ class LoginPage extends StatelessWidget {
 
                   /// Password Field
                   TextField(
+                    controller: passContoller,
                     obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
@@ -130,10 +136,23 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                        );
+
+                        String email = emailContoller.text.trim();
+                        String password = passContoller.text.trim();
+
+                        if(email.isEmpty || password.isEmpty) {
+                          // Show an error message if fields are empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please enter both email and password')),
+                          );
+                          return;
+                        }else{
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const HomePage()),
+                          );
+                        }
+                        
                       },
                       child: const Text(
                         "Login",
@@ -156,10 +175,42 @@ class LoginPage extends StatelessWidget {
                         color: Colors.black87),
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  Text(
+                      "or",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.text,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.secondary,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16/1.618),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      // Add your social login logic here
+                    },
+                    icon: Image.asset(
+                      'assets/devicon_google.png', // path to your SVG
+                      width: 28,
+                      height: 28,
+                      //color: Colors.black, // optional if you want to tint it
+                    ),
+                    label: const Text(
+                      "Login with Google",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    ),
+                  )
                   //const SizedBox(height: 64),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
                   /// Sign Up Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
