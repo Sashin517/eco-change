@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -114,31 +114,28 @@ class HomePage extends StatelessWidget {
                                     )                                    
                                   ],
                                 ),
-                                                           
-                            Stack(
-                              alignment: Alignment.center,
-                              children: const [
                                 SizedBox(
                                   height: 128,
                                   width: 128,
-                                  child: CircularProgressIndicator(
-                                    value: 2.5 / 7,
-                                    strokeWidth: 11.34,
+                                  child: CircularPercentIndicator(
+                                    animation: true,
+                                    animationDuration: 800,
+                                    radius: 64,
+                                    lineWidth: 11.34,
                                     backgroundColor: AppColors.secondary,
-                                    strokeCap: StrokeCap.round,
-                                    color: AppColors.olive,
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: AppColors.olive,
+                                    center: const Text(
+                                      "2.5/7 kg",
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    percent: 2.5 / 7, // Example percent value
                                   ),
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  "2.5/7 kg",
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  )                                  
-                                  ),
-                              ],
-                            )
+                                ),                                                         
+                           
                           ],
                           
                         ),
@@ -153,16 +150,18 @@ class HomePage extends StatelessWidget {
                 Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
+                  color: AppColors.primary,
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_shipping, color: Colors.black),
-                            SizedBox(width: 6),
-                            Text("Vehicle KLP 1651"),
+                            Icon(Icons.local_shipping, color: Colors.black, size: 64),
+                            SizedBox(width: 10),
+                            Text("Vehicle KLP 1651", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  ),
                           ],
                         ),
                         SizedBox(height: 8),
