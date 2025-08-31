@@ -3,6 +3,7 @@ import '../colors.dart';
 import 'home.dart';
 import 'signup_page.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -135,22 +136,41 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async{
 
-                        String email = emailContoller.text.trim();
-                        String password = passContoller.text.trim();
+                        String mail = emailContoller.text.trim();
+                        String pass = passContoller.text.trim();
 
-                        if(email.isEmpty || password.isEmpty) {
+                        if(mail.isEmpty || pass.isEmpty) {
                           // Show an error message if fields are empty
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Please enter both email and password')),
                           );
                           return;
                         }else{
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const HomePage()),
-                          );
+                            try{
+                            await FirebaseAuth.instance.signInWithEmailAndPassword(email: mail, password: pass).then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Login successfully')),
+                              );
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomePage()),
+                              );  
+                            });
+                                                      
+                          }on FirebaseAuthException catch (e) {
+                            // Specific Firebase errors (better debugging)
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Signup failed: ${e.message}")),
+                            );
+                          } catch (err) {
+                            // Any other errors
+                            print("Error: $err");
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("An unexpected error occurred")),
+                            );
+                          }
                         }
                         
                       },

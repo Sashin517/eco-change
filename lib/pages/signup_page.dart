@@ -22,7 +22,7 @@ class SignUpPage extends StatelessWidget {
           /// Background image (from network)
           SizedBox(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.32,
+            height: MediaQuery.of(context).size.height * 0.32*1.618,
             child: Image.asset(
               "assets/Garbage.jpg",
               fit: BoxFit.cover,
@@ -75,27 +75,27 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 25),
 
                   /// Name Field
-                  TextField(
-                    controller: nameContoller,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFFDFF4B7),
-                      hintText: "Enter your name",
-                      hintStyle: TextStyle(
-                        fontSize: 16, // font size of hint text
-                        color: AppColors.text, // 50% faded
-                      ),
-                      prefixIcon: const Icon(size: 22,Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
-                      ),
-                    ),
-                  ),
+                  // TextField(
+                  //   controller: nameContoller,
+                  //   decoration: InputDecoration(
+                  //     filled: true,
+                  //     fillColor: const Color(0xFFDFF4B7),
+                  //     hintText: "Enter your name",
+                  //     hintStyle: TextStyle(
+                  //       fontSize: 16, // font size of hint text
+                  //       color: AppColors.text, // 50% faded
+                  //     ),
+                  //     prefixIcon: const Icon(size: 22,Icons.person),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       borderSide: BorderSide.none,
+                  //     ),
+                  //     contentPadding: EdgeInsets.symmetric(
+                  //       horizontal: 14, // 👈 left & right
+                  //       vertical: 16,   // 👈 top & bottom
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 15),
                   /// Email Field
                   TextField(
@@ -183,37 +183,49 @@ class SignUpPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: (){
-                        String name = nameContoller.text.trim();
+                      onPressed: () async {
                         String mail = emailContoller.text.trim();
                         String pass = passContoller.text.trim();
                         String re_pass = rePassContoller.text.trim();
 
-                        if(name.isEmpty || mail.isEmpty || pass.isEmpty || re_pass.isEmpty) {
-                          // Show an error message if fields are empty
+                        if (mail.isEmpty || pass.isEmpty || re_pass.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Please enter all fields')),
                           );
                           return;
-                        }else if(pass != re_pass){
+                        } else if (pass != re_pass) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Passwords do not match')),
                           );
                           return;
-                        }else{
-                          try{
-                            FirebaseAuth.instance.createUserWithEmailAndPassword(email: mail, password: pass).then((value) {
+                        } else {
+                          try {
+                            // Await the async call
+                            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                              email: mail,
+                              password: pass,
+                            );
+
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Signed up successfully')),
+                                const SnackBar(content: Text('Signed up successfully')),
                               );
                               Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const LoginPage()),
-                              );  
-                            });
-                                                      
-                          }catch(err){
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginPage()),
+                              );
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            // Specific Firebase errors (better debugging)
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Signup failed: ${e.message}")),
+                            );
+                          } catch (err) {
+                            // Any other errors
                             print("Error: $err");
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("An unexpected error occurred")),
+                            );
                           }
                         }
                       },

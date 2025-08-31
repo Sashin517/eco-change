@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:eco_change/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase with web options
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const EcoChangeApp());
 }
