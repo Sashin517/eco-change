@@ -4,6 +4,7 @@ import 'home.dart';
 import 'signup_page.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // 👈 prevents keyboard overlap
+      resizeToAvoidBottomInset: true, 
       body: SafeArea(
         child: Stack(
           children: [
@@ -49,7 +50,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                mainAxisSize: MainAxisSize.min,
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -91,8 +92,8 @@ class LoginPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
+                        horizontal: 14, // left & right
+                        vertical: 16,   // top & bottom
                       ),
                     ),
                   ),
@@ -116,8 +117,8 @@ class LoginPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
+                        horizontal: 14, // left & right
+                        vertical: 16,   // top & bottom
                       ),
                     ),
                   ),
@@ -214,10 +215,10 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // Add your social login logic here
+                     
                     },
                     icon: Image.asset(
-                      'assets/devicon_google.png', // path to your SVG
+                      'assets/devicon_google.png', // path to SVG
                       width: 28,
                       height: 28,
                       //color: Colors.black, // optional if you want to tint it

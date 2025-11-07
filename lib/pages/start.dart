@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'card.dart';
+import 'status.dart';
+import 'disposal.dart';
+import 'redeem.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:open_location_code/open_location_code.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -14,7 +20,48 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  Position? position;
+  String? plusCode;
   @override
+  void initState() {
+    super.initState();
+    fetchposition();
+  }
+fetchposition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      Fluttertoast.showToast(msg: "Location services are disabled");
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Fluttertoast.showToast(msg: "Location permissions are denied");
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      Fluttertoast.showToast(
+          msg:
+              "Location permissions are permanently denied, we cannot request permissions.");
+      return;
+    }
+
+    Position currentposition =
+        await Geolocator.getCurrentPosition();
+
+    setState(() {
+      position = currentposition;
+    });
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -27,22 +74,38 @@ class _StartPageState extends State<StartPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
-                  Icon(Icons.location_on, size: 18),
-                  SizedBox(width: 4),
-                  Text("SJP Campus, Meepe, Padukka",
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w400)),
+                children: [
+                  const Icon(Icons.location_on, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    position == null
+                        ? "Locating..."
+                        : "${position!.latitude}, ${position!.longitude}",
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.w400),
+                  ),
                 ],
               ),
-              Row(
-                children: const [
-                  Icon(Icons.stars),
-                  SizedBox(width: 4),
-                  Text("1400",
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w400)),
-                ],
+
+               
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RedeemPage()),
+                  );
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.stars),
+                    SizedBox(width: 4),
+                    Text("1400",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w400)),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward, color: Colors.black),
+                  ],
+               )
               )
             ],
           ),
@@ -110,7 +173,7 @@ class _StartPageState extends State<StartPage> {
                                   ],
                                 ),
                                 SizedBox(
-                                width: 144, // ≈ 2 * radius (64) + lineWidth (~11) * 2
+                                width: 144,
                                 height: 144,
                                 child: CircularPercentIndicator(
                                   animation: true,
@@ -189,7 +252,10 @@ class _StartPageState extends State<StartPage> {
                         const SizedBox(height: 16),
                         InkWell(
                           onTap: () {
-                            // 👉 Handle tap here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const StatusScreen()),
+                              );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -266,14 +332,23 @@ class _StartPageState extends State<StartPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  children: const [
-                    _EcoHelpCard(icon: FontAwesomeIcons.route, title: "Disposal Guide"),
-                    _EcoHelpCard(icon: FontAwesomeIcons.newspaper, title: "News & Events"),
-                    _EcoHelpCard(icon: FontAwesomeIcons.podcast, title: "Live Eco Cast"),
+                  children: [
                     _EcoHelpCard(
-                        icon: FontAwesomeIcons.trashCan, title: "Installation Guide"),
+                      icon: FontAwesomeIcons.route,
+                      title: "Disposal Guide",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const DisposalGuidePage()),
+                        );
+                      },
+                    ),
+                    const _EcoHelpCard(icon: FontAwesomeIcons.newspaper, title: "News & Events"),
+                    const _EcoHelpCard(icon: FontAwesomeIcons.podcast, title: "Live Eco Cast"),
+                    const _EcoHelpCard(icon: FontAwesomeIcons.trashCan, title: "Installation Guide"),
                   ],
                 )
+
               ],
             ),
           ),
@@ -283,26 +358,32 @@ class _StartPageState extends State<StartPage> {
   }
 }
 
-// Reusable Eco Help Card
 class _EcoHelpCard extends StatelessWidget {
   final IconData icon;
   final String title;
+  final VoidCallback? onTap; // new
 
-  const _EcoHelpCard({required this.icon, required this.title});
+  const _EcoHelpCard({required this.icon, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColors.primary,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 44, color: AppColors.text),
-            const SizedBox(height: 8),
-            Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, color: AppColors.text)),
-          ],
+    return InkWell(
+      onTap: onTap, // makes card tappable
+      borderRadius: BorderRadius.circular(12),
+      child: Card(
+        color: AppColors.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 44, color: AppColors.text),
+              const SizedBox(height: 8),
+              Text(title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: AppColors.text)),
+            ],
+          ),
         ),
       ),
     );

@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/database.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -14,7 +16,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // 👈 prevents keyboard overlap
+      resizeToAvoidBottomInset: true, //prevents keyboard overlap
       body: SafeArea(
         child:Stack(
         children: [
@@ -49,7 +51,7 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // 👈 fits height to children
+                mainAxisSize: MainAxisSize.min, //fits height to children
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -91,8 +93,8 @@ class SignUpPage extends StatelessWidget {
                   //       borderSide: BorderSide.none,
                   //     ),
                   //     contentPadding: EdgeInsets.symmetric(
-                  //       horizontal: 14, // 👈 left & right
-                  //       vertical: 16,   // 👈 top & bottom
+                  //       horizontal: 14, //left & right
+                  //       vertical: 16,   //top & bottom
                   //     ),
                   //   ),
                   // ),
@@ -114,8 +116,8 @@ class SignUpPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
+                        horizontal: 14, //left & right
+                        vertical: 16,   //top & bottom
                       ),
                     ),
                   ),
@@ -139,8 +141,8 @@ class SignUpPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
+                        horizontal: 14, //left & right
+                        vertical: 16,   //top & bottom
                       ),
                     ),
                   ),
@@ -163,8 +165,8 @@ class SignUpPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14, // 👈 left & right
-                        vertical: 16,   // 👈 top & bottom
+                        horizontal: 14, //left & right
+                        vertical: 16,   //top & bottom
                       ),
                     ),
                   ),
@@ -201,10 +203,21 @@ class SignUpPage extends StatelessWidget {
                         } else {
                           try {
                             // Await the async call
-                            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            // await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            //   email: mail,
+                            //   password: pass,
+                            // );
+
+                            UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                               email: mail,
                               password: pass,
                             );
+
+                            User? user = userCredential.user; 
+
+                            if (user!= null) { 
+                              await DatabaseService(uid: user.uid).updateUserData(mail, pass, 0);
+                            } 
 
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(

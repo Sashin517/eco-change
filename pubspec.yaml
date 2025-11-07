@@ -42,6 +42,14 @@ dependencies:
 
   flutter_svg: ^2.1.1
   font_awesome_flutter: ^10.7.0
+  flutter_map: ^8.2.1
+  latlong2:
+  #google_maps_flutter: ^2.12.3
+
+  geolocator:
+  fluttertoast:
+  open_location_code:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

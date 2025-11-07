@@ -17,7 +17,7 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 341, // give fixed width so cards don't shrink too much
+      width: 341,
       child: Card(
       color: AppColors.primary,
       shape: RoundedRectangleBorder(
@@ -34,9 +34,9 @@ class CustomCard extends StatelessWidget {
                 style: TextStyle(color: AppColors.text, fontSize: 14, fontWeight: FontWeight.w500),
                 overflow: TextOverflow.ellipsis,
               ),
-              Spacer(), // 👈 pushes time text to bottom
+              Spacer(), // pushes time text to bottom
               Align(
-              alignment: Alignment.centerRight, // 👈 aligns text to right
+              alignment: Alignment.centerRight, // aligns text to right
               child: const Text(
                 "6 hours ago",
                 style: TextStyle(color: AppColors.text, fontSize: 12),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'start.dart';
+import 'history.dart';
+import 'profile.dart';
+import 'complaint.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -18,9 +21,9 @@ class _HomePageState extends State<HomePage> {
   // pages
   final List<Widget> _pages = [
     StartPage(),
-    Center(child: Text("Complaint Page")),
-    Center(child: Text("History Page")),
-    Center(child: Text("Profile Page")),
+    ComplaintPage(),
+    HistoryPage(),
+    ProfilePage(),
   ];
 
   @override
